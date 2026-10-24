@@ -15,11 +15,29 @@ CHROMA_DIR = os.path.join(BASE_DIR, "chroma_db")
 
 load_dotenv(ENV_PATH)
 
-if os.getenv("GEMINI_API_KEY"):
-    os.environ["GOOGLE_API_KEY"] = os.getenv("GEMINI_API_KEY")
+gemini_api_key = os.getenv("GEMINI_API_KEY")
+if not gemini_api_key:
+    try:
+        import streamlit as st
+        gemini_api_key = st.secrets["GEMINI_API_KEY"]
+    except Exception:
+        gemini_api_key = None
 
-if os.getenv("HUGGINGFACEHUB_ACCESS_TOKEN"):
-    os.environ["HF_TOKEN"] = os.getenv("HUGGINGFACEHUB_ACCESS_TOKEN")
+if gemini_api_key:
+    os.environ["GEMINI_API_KEY"] = gemini_api_key
+    os.environ["GOOGLE_API_KEY"] = gemini_api_key
+
+hf_token = os.getenv("HUGGINGFACEHUB_ACCESS_TOKEN")
+if not hf_token:
+    try:
+        import streamlit as st
+        hf_token = st.secrets["HUGGINGFACEHUB_ACCESS_TOKEN"]
+    except Exception:
+        hf_token = None
+
+if hf_token:
+    os.environ["HUGGINGFACEHUB_ACCESS_TOKEN"] = hf_token
+    os.environ["HF_TOKEN"] = hf_token
 
 
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
@@ -28,8 +46,18 @@ GEMINI_MODEL = "gemini-3.6-flash"
 
 def check_api_key():
     if not os.getenv("GEMINI_API_KEY"):
+        try:
+            import streamlit as st
+            key = st.secrets["GEMINI_API_KEY"]
+            if key:
+                os.environ["GEMINI_API_KEY"] = key
+                os.environ["GOOGLE_API_KEY"] = key
+        except Exception:
+            pass
+
+    if not os.getenv("GEMINI_API_KEY"):
         raise RuntimeError(
-            "GEMINI_API_KEY is missing. Add it to your .env file."
+            "GEMINI_API_KEY is missing. Add it to your .env file or Streamlit Cloud Secrets."
         )
 
 
@@ -41,9 +69,7 @@ def get_embedding_model():
 
 def get_vectorstore():
     if not os.path.exists(CHROMA_DIR):
-        raise RuntimeError(
-            "Chroma database not found. Run create_database.py first."
-        )
+        os.makedirs(CHROMA_DIR, exist_ok=True)
 
     embedding_model = get_embedding_model()
 
@@ -131,6 +157,10 @@ def ingest_pdf(file_path: str, source_name: str | None = None):
 def get_answer(query: str):
     if not query or not query.strip():
         return "Please enter a question.", []
+
+    vectorstore = get_vectorstore()
+    if vectorstore._collection.count() == 0:
+        return "No documents indexed yet. Please upload a PDF first.", []
 
     retriever = get_retriever()
 

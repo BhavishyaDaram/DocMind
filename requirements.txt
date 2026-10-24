@@ -1,52 +1,11 @@
+streamlit
+python-dotenv
 langchain
 langchain-core
 langchain-community
-
-# LLM Providers
-
-langchain-openai
-langchain-mistralai
-openai
-mistralai
-
-# Vector Database
-
+langchain-text-splitters
+langchain-huggingface
+langchain-google-genai
 chromadb
-
-# Embedding Models
-
 sentence-transformers
-
-# Document Loaders dependencies
-
 pypdf
-unstructured
-beautifulsoup4
-lxml
-
-# Text Processing
-
-tiktoken
-
-# Environment Variables
-
-python-dotenv
-
-# Data Handling
-
-pandas
-numpy
-
-# API / App Layer (optional but common in RAG apps)
-
-fastapi
-uvicorn
-
-# UI (optional)
-
-streamlit
-
-# Utilities
-
-tqdm
-requests

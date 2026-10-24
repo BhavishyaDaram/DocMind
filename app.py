@@ -355,8 +355,7 @@ if not RAG_READY:
         "The RAG pipeline failed to initialize, so chat is disabled.\n\n"
         f"**Details:** {RAG_ERROR}\n\n"
         "Common fixes:\n"
-        "- Make sure a `.env` file exists in the project root with `GEMINI_API_KEY=...`\n"
-        "- Make sure the `chroma_db` folder exists in the project root and is populated\n"
+        "- Make sure a `.env` file exists in the project root with `GEMINI_API_KEY=...`, or add `GEMINI_API_KEY` in Streamlit Cloud Settings -> Secrets\n"
         "- Make sure all packages from `requirements.txt` are installed",
         icon="🚫",
     )
