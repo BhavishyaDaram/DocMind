@@ -1,5 +1,5 @@
 """
-DocuMind — RAG Document Intelligence Assistant
+DocMind — RAG Document Intelligence Assistant
 streamlit_app.py
 
 Web UI for the existing RAG pipeline (rag_core.py).
@@ -28,7 +28,7 @@ import streamlit as st
 # ---------------- Page config ----------------
 
 st.set_page_config(
-    page_title="DocuMind · Chat with your documents",
+    page_title="DocMind · Chat with your documents",
     page_icon="📄",
     layout="centered",
     initial_sidebar_state="collapsed",
