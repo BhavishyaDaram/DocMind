@@ -1,6 +1,6 @@
-# DocMind
+# DocuMind
 
-**Chat with your documents.** DocMind is a Retrieval-Augmented Generation (RAG) app that lets you upload PDFs and ask questions about them. Answers are generated only from the retrieved passages of your documents, and the supporting chunks are shown next to every answer so you can verify them.
+**Chat with your documents.** DocuMind is a Retrieval-Augmented Generation (RAG) app that lets you upload PDFs and ask questions about them. Answers are generated only from the retrieved passages of your documents, and the supporting chunks are shown next to every answer so you can verify them.
 
 Built with LangChain, ChromaDB, HuggingFace sentence-transformer embeddings, Google Gemini and Streamlit.
 
